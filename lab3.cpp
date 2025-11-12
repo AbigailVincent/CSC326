@@ -1,10 +1,12 @@
+/lab 3
 #include <iostream>
 using namespace std;
+
 class Node{
 public:
     int data;
     Node* next;
-    Node(int value) {
+    Node(int value) { 
         data = value;
         next = nullptr;
     }
@@ -24,7 +26,8 @@ public:
             current = nextNode;
         }
     }
-    // Iterate to a given position (0-based index)
+
+    // Iterate to a given position
     Node* iterate(int position) {
         if (position < 0) return nullptr;
         Node* current = head;
@@ -35,10 +38,10 @@ public:
         }
         return current; // nullptr if not found
     }
-    // Insert at position
+ 
     void insertAt(int position, int value) {
         Node* newNode = new Node(value);
-        if (position <= 0 || head == nullptr) { // Insert at beginning
+        if (position <= 0 || head == nullptr) { // Insert  beginning
             newNode->next = head;
             head = newNode;
             return;
@@ -89,7 +92,6 @@ public:
             delete temp;
             return true;
         }
-        // Find previous node of the target
         int index = 0;
         Node* current = head;
         while (current != nullptr && current->next != nullptr) {
@@ -104,7 +106,7 @@ public:
         }
         return false; // Not found
     }
-    // Remove from position
+    // Remove from pos
     bool removeAtPos(int value) {
         if(head==nullptr){
             return false;
@@ -127,7 +129,7 @@ public:
     }
     return false;
     }
-    // Remove from position
+    // Remove first
     bool removeFirst() {
         if(head==nullptr) return false;
         Node *temp=head;
@@ -135,7 +137,7 @@ public:
         delete temp;
         return true;
     }
-    // Remove from position
+    // Remove from last
     bool removeLast() { 
         if(head==nullptr) return false;
         
@@ -158,6 +160,28 @@ public:
         }
         return count;
     }
+    //getfirst
+    int getFirst(){
+        if(head==nullptr){
+            return -1;
+        }
+        return head->data;
+    }
+    //getlast
+    int getLast(){
+        if(head==nullptr){
+            return -1;
+        }
+        Node *temp=head;
+        while(temp->next!=nullptr){
+            temp=temp->next;
+        }
+        return temp->data;
+    }
+    //if isEmpty
+    bool isEmpty(){
+        return head==nullptr;
+    }
     // Display
     void display() {
         Node* temp = head;
@@ -168,21 +192,83 @@ public:
         cout << "NULL" << endl;
     }
 };
+//class STACK
+class Stack{
+    private: //using linked list to implement stack
+    LinkedList l;
+    public:
+    //functions using functions
+    void push(int v){
+        l.prepend(v); }
+    bool pop(){
+        return l.removeFirst();  } //returns bool value
+    int top(){
+        return l.getFirst(); //peek()
+    }
+    bool isEmpty(){
+        return l.isEmpty(); //returns bool val
+    }
+    void display(){
+        cout<<"STACK: ";
+        l.display();
+    }
+};
+class Queue{
+    private:
+    LinkedList queue;
+    public:
+    void enqueue(int m){
+        queue.append(m); //adds element to end
+    }
+    bool dequeue(){
+        return queue.removeFirst(); //removes first elememt FIFO
+    }
+    int begining(){
+        return queue.getFirst();
+    }
+    bool isEmpty(){
+        return queue.isEmpty();
+    }
+    void display(){
+        cout<<"Queue: ";
+        queue.display();
+    }
+};
 int main() {
-    LinkedList list;
-    list.append(10);
-    list.append(20);
-    list.append(30);
-    list.prepend(5);
-    list.insertAt(2, 15);
-    cout << "Linked List: ";
-    list.display();
-    cout << "Contains 20? " << (list.contains(20) ? "Yes" : "No") << endl;
-    list.remove(20);
-    cout << "After removing 20: ";
-    list.display();
-    return 0;
+    cout<<"testing stack implementation: \n";
+    Stack myStack;
+    myStack.push(1);
+    myStack.push(2);
+    myStack.push(3);
+    myStack.push(4);
+    myStack.display();
+    cout<<"top of stack: "<<myStack.top()<<endl;
+    myStack.pop();
+    myStack.display();
+
+    cout<<"testing queue implementation: \n";
+    Queue myqueue;
+    myqueue.enqueue(2);
+    myqueue.enqueue(4);
+    myqueue.enqueue(6);
+    myqueue.enqueue(8);
+    myqueue.display();
+    cout<<"begining of queue: "<<myqueue.begining()<<endl;
+    myqueue.dequeue();
+    myqueue.display();
+    
+    
 }
+/*OUTPUT:
+testing stack implementation: 
+STACK: 4 -> 3 -> 2 -> 1 -> NULL
+top of stack: 4
+STACK: 3 -> 2 -> 1 -> NULL
+testing queue implementation: 
+Queue: 2 -> 4 -> 6 -> 8 -> NULL
+begining of queue: 2
+Queue: 4 -> 6 -> 8 -> NULL
+*/
 /*ouput:
 Linked List: 5 -> 10 -> 15 -> 20 -> 30 -> NULL
 Contains 20? Yes
